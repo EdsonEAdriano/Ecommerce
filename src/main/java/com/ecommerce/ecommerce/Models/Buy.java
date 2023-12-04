@@ -14,7 +14,7 @@ public class Buy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date date;
+    private Date date = new Date();
     private String buyer;
     private Double totalPrice;
 }
