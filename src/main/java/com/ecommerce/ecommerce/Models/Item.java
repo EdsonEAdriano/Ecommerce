@@ -16,7 +16,7 @@ public class Item {
     @JoinColumn(name = "product_id")
     private Product product;
     @ManyToOne
-    @JoinColumn(name = "image_id")
-    private Image image;
+    @JoinColumn(name = "buy_id")
+    private Buy buy;
     private Integer quantity;
 }
