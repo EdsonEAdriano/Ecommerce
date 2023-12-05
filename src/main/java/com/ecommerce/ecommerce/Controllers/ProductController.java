@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
     @Autowired
     private IProductRepository _productRepository;
@@ -32,14 +33,30 @@ public class ProductController {
     }
 
     @GetMapping
-    public Iterable<Product> get(){
-        return _productRepository.findAll();
+    public Iterable<Product> get(@RequestParam(name = "name", required = false) String name){
+        if (name == null){
+            return _productRepository.findAll();
+        }
+        else {
+            return _productRepository.getByName(name);
+        }
     }
 
     @GetMapping("/{id}")
     public Product get(@PathVariable int id){
         return _productRepository.findById(id).orElse(null);
     }
+
+    @GetMapping("/category/{category}")
+    public Iterable<Product> getByCategory(@PathVariable String category, @RequestParam(name = "name", required = false) String name){
+        if (name == null) {
+            return _productRepository.getByCategory(category);
+        }
+        else {
+            return _productRepository.getByCategoryAndName(category, name);
+        }
+    }
+
 
     @PutMapping("/{id}")
     public Product put(@PathVariable int id, @RequestBody ProductDTO productDTO){
