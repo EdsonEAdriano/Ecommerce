@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class Comment {
     private String userName;
     @Column(name="comment")
     private String comment;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
