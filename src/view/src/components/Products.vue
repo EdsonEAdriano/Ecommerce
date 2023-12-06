@@ -47,14 +47,16 @@ onMounted(() => {
 
   <div class="products">
     <div class="row row-cols-1 row-cols-md-6 g-5">
-      <div class="col" v-for="p in products">
-        <div class="card" style="width: 18rem;">
-          <img src="../Images/shrek.jpg" class="card-img-top" alt="...">
+      <div class="col" v-for="p in products" :key="p.id">
+        <div class="card" style="width: 18rem; height: 500px;">
+          <img v-if="p.images && p.images.length > 0" :src="p.images[0].url" class="card-img-top" alt="...">
+          <img v-else src="../Images/shrek.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">{{ p.name }}</h5>
             <h6>{{ p.category.name }}</h6>
             <p class="card-text">{{ p.description }}</p>
-            <a href="#" class="btn btn-primary">Visualizar</a>
+            <p>R$ {{ p.price }}</p>
+            <a :href="`Produto/${p.id}`" class="btn btn-primary">Visualizar</a>
           </div>
         </div>
       </div>

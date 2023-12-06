@@ -7,7 +7,8 @@ const route = useRoute();
 
 const categories = ref([]);
 const name = ref('');
-const actualURL = window.location.href;
+let actualURL = window.location.href;
+actualURL = actualURL.replace(/[?&]name=([^&#]*)/, '')
 
 onMounted(() => {
     axios.get('http://localhost:8080/category')
@@ -17,7 +18,7 @@ onMounted(() => {
         .catch(error => {
             console.error('Error while getting categories:', error);
         })
-       
+
 })
 
 
@@ -44,9 +45,29 @@ onMounted(() => {
                     </li>
                 </ul>
                 <form class="d-flex" role="search" @submit.prevent="search">
-                    <input class="form-control me-2" type="search" placeholder="Pesquisar produto..." aria-label="Search" v-model="name" />
+                    <input class="form-control me-2" type="search" placeholder="Pesquisar produto..." aria-label="Search"
+                        v-model="name" />
                     <a class="btn btn-outline-success" :href="`${actualURL}?name=${name}`">Pesquisar</a>
                 </form>
+
+
+                <div class="cart-icon-container" style="margin-left: 10px;">
+                    <button class="btn" type="button" id="cartDropdown" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-cart"></i> <img src="../Images/carrinho-de-compras.png" style="width: 20px; height: 20px;">
+                        <span class="badge bg-secondary" style="margin-left: 10px;">10</span>
+                    </button>
+
+                    <!-- Dropdown do Carrinho -->
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+                        <li class="dropdown-item">Item 1 - R$10.00</li>
+                        <li class="dropdown-item">Item 2 - R$20.00</li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-item">Total: R$30.00</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -85,5 +106,4 @@ header {
     height: 30px;
     border-radius: 50%;
     margin-left: 10px;
-}
-</style>
+}</style>
