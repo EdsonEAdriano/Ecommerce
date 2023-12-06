@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,10 @@ public class Product {
     private Category category;
     private Double price;
     private String evaluation;
+    @JsonManagedReference
     @OneToMany(mappedBy = "product")
     private List<Image> images;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
 }
