@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/comment")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CommentController {
     @Autowired
     private ICommentRepository _commentRepository;
