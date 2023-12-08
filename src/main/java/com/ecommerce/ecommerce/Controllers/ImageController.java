@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/image")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ImageController {
     @Autowired
     private IImageRepository _imageRepository;
