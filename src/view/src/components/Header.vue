@@ -6,11 +6,12 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 const categories = ref([]);
+const items = ref([]);
+const qtyItems = ref(0);
+const total = ref(0);
 const name = ref('');
-let actualURL = window.location.href;
-actualURL = actualURL.replace(/[?&]name=([^&#]*)/, '')
 
-onMounted(() => {
+onMounted( async () => {
     axios.get('http://localhost:8080/category')
         .then(response => {
             categories.value = response.data
@@ -19,7 +20,27 @@ onMounted(() => {
             console.error('Error while getting categories:', error);
         })
 
+    await axios.get('http://localhost:8080/item')
+        .then(response => {
+            items.value = response.data
+        })
+        .catch(error => {
+            console.error('Error while getting itens:', error);
+        })
+
+
+    items.value.forEach(function (item) {
+        qtyItems.value += item.quantity;
+        total.value += item.product.price * item.quantity;
+    });
+
+
 })
+
+const removeItem = async (id) => {
+    await axios.delete(`http://localhost:8080/item/${id}`);
+    location.reload();
+}
 
 
 </script>
@@ -47,25 +68,27 @@ onMounted(() => {
                 <form class="d-flex" role="search" @submit.prevent="search">
                     <input class="form-control me-2" type="search" placeholder="Pesquisar produto..." aria-label="Search"
                         v-model="name" />
-                    <a class="btn btn-outline-success" :href="`${actualURL}?name=${name}`">Pesquisar</a>
+                    <a class="btn btn-outline-success" :href="`http://localhost:5173?name=${name}`">Pesquisar</a>
                 </form>
 
 
                 <div class="cart-icon-container" style="margin-left: 10px;">
-                    <button class="btn" type="button" id="cartDropdown" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="bi bi-cart"></i> <img src="../Images/carrinho-de-compras.png" style="width: 20px; height: 20px;">
-                        <span class="badge bg-secondary" style="margin-left: 10px;">10</span>
+                    <button class="btn" type="button" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cart"></i> <img src="../Images/carrinho-de-compras.png"
+                            style="width: 20px; height: 20px;">
+                        <span class="badge bg-secondary" style="margin-left: 10px;">{{ qtyItems === 0 ? '' : qtyItems }}</span>
                     </button>
 
                     <!-- Dropdown do Carrinho -->
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
-                        <li class="dropdown-item">Item 1 - R$10.00</li>
-                        <li class="dropdown-item">Item 2 - R$20.00</li>
+                    <ul v-if="items.length > 0" class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown" style="width: 300px; /* Adjust the width as needed */">
+                        <li v-for="i in items" style="margin-left: 5%;">{{ i.quantity }}x {{ i.product.name }} <a @click="removeItem(i.id)"><img src="../Images/excluir.png" class="removeIcon"></a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li class="dropdown-item">Total: R$30.00</li>
+                        <li class="dropdown-item">Total: R$ {{ total.toFixed(2) }}</li>
+                    </ul>
+                    <ul v-else class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+                        <li class="dropdown-item">Carrinho vazio</li>
                     </ul>
                 </div>
             </div>
@@ -106,4 +129,15 @@ header {
     height: 30px;
     border-radius: 50%;
     margin-left: 10px;
-}</style>
+}
+
+.removeIcon {
+    width:20px;
+    margin-left: 44%;
+    transition: transform 0.3s ease;
+}
+
+.removeIcon:hover {
+    transform: scale(1.2); /* Aumenta o tamanho para 120% do tamanho original */
+}
+</style>
