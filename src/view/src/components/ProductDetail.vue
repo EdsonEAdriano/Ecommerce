@@ -6,7 +6,11 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 const product = ref({});
+
+const productID = route.params.id;
+const buyID = 1;
 const qty = ref(1);
+const send = ref(false);
 
 
 onMounted(() => {
@@ -19,20 +23,35 @@ onMounted(() => {
         })
 })
 
+const addCart = async () => {
+    const item = { 
+        productID: productID,
+        buyID: buyID,
+        quantity: qty.value
+    }
+
+        await axios.post("http://localhost:8080/item", item)
+            .finally(() => {
+                send = true;
+            })
+    
+
+    
+}
+
 </script>
 
 <template class="main">
     <div id="produto" class="d-flex">
-        <div class="product-details flex-column">
+
+
+
+        <div id="product-description" class="product-details flex-column">
             <h1>{{ product.name }}</h1>
             <p>{{ product.description }}</p>
 
-
-
-
-
             <div class="mb-3">
-                <p>Preço total: R$ {{ (product.price * qty).toFixed(2) }}</p>
+                <p>Preço total: R$ {{ (product.price * (qty <= 0 ? 1 : qty)).toFixed(2) }}</p>
             </div>
 
             <form>
@@ -40,13 +59,14 @@ onMounted(() => {
                     <label for="exampleInputPassword1" class="form-label">Quantidade</label>
                     <input type="number" min="1" max="999" v-model="qty" class="form-control" id="exampleInputPassword1">
                 </div>
-                <button type="submit" class="btn btn-primary">Adicionar ao carrinho</button>
+                <a class="btn btn-primary" @click="addCart()" href="http://localhost:5173" :disabled="send">Adicionar ao carrinho</a>
             </form>
         </div>
 
 
 
-        <div id="carousel" class="ml-4">
+
+        <div id="carousel" class="flex-column">
             <div id="carouselExampleIndicators" class="carousel slide">
                 <div class="carousel-inner">
                     <div v-if="product.images && product.images.length > 0" v-for="(image, index) in product.images"
@@ -70,7 +90,11 @@ onMounted(() => {
             </div>
         </div>
 
-        <div id="comment" class="comments flex-column">
+
+
+
+
+        <!-- <div id="comment" class="comments flex-column">
             <h1>Comentários</h1>
 
 
@@ -87,7 +111,7 @@ onMounted(() => {
             </div>
 
 
-        </div>
+        </div> -->
 
     </div>
 </template>
@@ -101,12 +125,19 @@ body {
 
 
 #produto {
-    margin: 15vh;
+    margin: 7% 2%;
+}
+
+#product-description {
+    width: 80vh;
+    padding-right: 10%;
+
 }
 
 #carousel {
-    padding-left: 100px;
-    padding: 25px 25px 25px 250px;
+    width: 800px;
+    height: 600px;
+    /* border-radius: 10px; */
 }
 
 #comment {
@@ -129,11 +160,10 @@ body {
 
 
 img {
-    width: 600px;
-    height: 400px;
+    width: 800px;
+    height: 600px;
 }
 
 form {
     margin-top: 20px;
-}
-</style>
+}</style>
