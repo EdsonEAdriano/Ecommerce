@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/item")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ItemController {
     @Autowired
     private IItemRepository _itemRepository;
