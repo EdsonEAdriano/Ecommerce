@@ -1,16 +1,12 @@
 package com.ecommerce.ecommerce;
 
-import com.ecommerce.ecommerce.Models.Category;
-import com.ecommerce.ecommerce.Models.Comment;
-import com.ecommerce.ecommerce.Models.Image;
-import com.ecommerce.ecommerce.Models.Product;
-import com.ecommerce.ecommerce.Repositories.ICategoryRepository;
-import com.ecommerce.ecommerce.Repositories.ICommentRepository;
-import com.ecommerce.ecommerce.Repositories.IImageRepository;
-import com.ecommerce.ecommerce.Repositories.IProductRepository;
+import com.ecommerce.ecommerce.Models.*;
+import com.ecommerce.ecommerce.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -23,6 +19,8 @@ public class DataInitializer implements CommandLineRunner {
     private IImageRepository _imageRepository;
     @Autowired
     private ICommentRepository _commentRepository;
+    @Autowired
+    private IBuyRepository _buyRepository;
 
 
     @Override
@@ -66,18 +64,50 @@ public class DataInitializer implements CommandLineRunner {
 
 
         Image image1 = new Image(null, product1, 1, "https://m.media-amazon.com/images/I/51Tukq7Dn5L._AC_SX522_.jpg");
-        Image image2 = new Image(null, product1, 1, "https://m.media-amazon.com/images/I/61xnLA+Vr2L._AC_SX522_.jpg");
-        Image image3 = new Image(null, product1, 1, "https://m.media-amazon.com/images/I/31914ceya9L._AC_SX522_.jpg");
-        Image image4 = new Image(null, product1, 1, "https://m.media-amazon.com/images/I/61wLdomHMJL._AC_SX522_.jpg");
-        Image image5 = new Image(null, product1, 1, "https://m.media-amazon.com/images/I/71ObJsjXQ7L._AC_SX522_.jpg");
-        Image image6 = new Image(null, product1, 1, "https://m.media-amazon.com/images/I/51gamSFhM9L._AC_SX522_.jpg");
+        Image image2 = new Image(null, product1, 2, "https://m.media-amazon.com/images/I/61xnLA+Vr2L._AC_SX522_.jpg");
+        Image image4 = new Image(null, product1, 3, "https://m.media-amazon.com/images/I/61wLdomHMJL._AC_SX522_.jpg");
+        Image image5 = new Image(null, product1, 4, "https://m.media-amazon.com/images/I/71ObJsjXQ7L._AC_SX522_.jpg");
+        Image image6 = new Image(null, product1, 5, "https://m.media-amazon.com/images/I/51gamSFhM9L._AC_SX522_.jpg");
+
+        Image image7 = new Image(null, product2, 1, "https://imgcentauro-a.akamaihd.net/768x768/98488602A5.jpg");
+
+        Image image8 = new Image(null, product3, 1, "https://m.media-amazon.com/images/I/715afDdgKfL._SY466_.jpg");
+
+        Image image9 = new Image(null, product4, 1, "https://static.netshoes.com.br/produtos/bola-de-futebol-campo-adidas-ucl-club/14/FB8-9456-014/FB8-9456-014_zoom1.jpg?ts=1695699466&ims=544x");
+
+        Image image10 = new Image(null, product5, 1, "https://m.media-amazon.com/images/I/71epkJC5SxL._AC_SX679_.jpg");
+
+        Image image11 = new Image(null, product6, 1, "https://m.media-amazon.com/images/I/51SKmu2G9FL.__AC_SY300_SX300_QL70_ML2_.jpg");
+
+        Image image12 = new Image(null, product7, 1, "https://m.media-amazon.com/images/I/61+1vJ3LpHL._AC_SX569_.jpg");
+
+        Image image13 = new Image(null, product8, 1, "https://m.media-amazon.com/images/I/61okKnMpjpL._AC_SX575_.jpg");
+
+        Image image14 = new Image(null, product9, 1, "https://m.media-amazon.com/images/I/41897yAI4LL._SY445_SX342_.jpg");
+
+        Image image15 = new Image(null, product10, 1, "https://m.media-amazon.com/images/I/41FU42ESk5L._SY445_SX342_.jpg");
+
+        Image image16 = new Image(null, product11, 1, "https://m.media-amazon.com/images/I/61obFU1hm1L.__AC_SX300_SY300_QL70_ML2_.jpg");
+
+        Image image17 = new Image(null, product12, 1, "https://m.media-amazon.com/images/I/51rFoiYwr6L.__AC_SX300_SY300_QL70_ML2_.jpg");
+
 
         _imageRepository.save(image1);
         _imageRepository.save(image2);
-        _imageRepository.save(image3);
         _imageRepository.save(image4);
         _imageRepository.save(image5);
         _imageRepository.save(image6);
+        _imageRepository.save(image7);
+        _imageRepository.save(image8);
+        _imageRepository.save(image9);
+        _imageRepository.save(image10);
+        _imageRepository.save(image11);
+        _imageRepository.save(image12);
+        _imageRepository.save(image13);
+        _imageRepository.save(image14);
+        _imageRepository.save(image15);
+        _imageRepository.save(image16);
+        _imageRepository.save(image17);
 
 
 
@@ -87,5 +117,10 @@ public class DataInitializer implements CommandLineRunner {
 
         _commentRepository.save(comment1);
         _commentRepository.save(comment2);
+
+
+        Buy buy = new Buy(null, new Date(), "Comprador", 0.0);
+
+        _buyRepository.save(buy);
     }
 }
