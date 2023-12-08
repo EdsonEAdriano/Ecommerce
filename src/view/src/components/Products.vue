@@ -46,9 +46,9 @@ onMounted(() => {
 <template>
 
   <div class="products">
-    <div class="row row-cols-1 row-cols-md-6 g-5">
+    <div class="row row-cols-1 row-cols-md-5 g-5">
       <div class="col" v-for="p in products" :key="p.id">
-        <div class="card" style="width: 18rem; height: 500px;">
+        <div class="card" style="width: 21rem; height: 550px;">
           <img v-if="p.images && p.images.length > 0" :src="p.images[0].url" class="card-img-top" alt="...">
           <img v-else src="../Images/shrek.jpg" class="card-img-top" alt="...">
           <div class="card-body">
@@ -72,5 +72,11 @@ onMounted(() => {
 
 .products {
   margin: 2%;
+}
+
+img{
+  margin: 2%;
+  width: 20rem;
+  height: 17rem;
 }
 </style>
